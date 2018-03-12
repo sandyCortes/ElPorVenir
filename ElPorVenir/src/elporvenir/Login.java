@@ -8,10 +8,10 @@ import javax.swing.JPanel;
 
 
 public class Login extends javax.swing.JFrame {
-
+    
     public Login() {
         initComponents();
-        IntroducirPanle(new Logo(), pnLogo,new Point(0,0));
+        //IntroducirPanle(new Logo(), pnLogo,new Point(0,0));
     }
 
     
@@ -24,6 +24,8 @@ public class Login extends javax.swing.JFrame {
          pnContenedor.revalidate();
          pnContenedor.repaint();
     }
+     
+     
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -152,10 +154,10 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
-       new Principal().setVisible(true);
-       this.dispose();
+            new Principal().setVisible(true);
     }//GEN-LAST:event_btnEntrarActionPerformed
-
+    
+    
     /**
      * @param args the command line arguments
      */
