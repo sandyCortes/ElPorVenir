@@ -36,3 +36,47 @@ GO
 
 exec AgregarUsuario 'CESAR','MUÑOZ','ocampo','1994/09/27'
 ,'M',1,'0445533','cesar_dantexD','dantexD123',''
+
+
+
+
+CREATE PROCEDURE EliminarUsuario
+@nombre varchar(20),
+@apPaterno varchar(20),
+@apMaterno varchar(20),
+@correo varchar(20),
+@respuesta varchar(20) output
+
+AS
+if exists(Select * from Usuarios 
+where nombreUse = @nombre and aPpUser = @apPaterno and aPmUser = @apMaterno and correo = @correo)
+begin 
+
+update Usuarios set actividad = 0 where nombreUse = @nombre 
+and aPpUser = @apPaterno and aPmUser = @apMaterno and correo = @correo 
+
+set @respuesta = 'El usuario ha sido dado de baja'
+end 
+else begin 
+set @respuesta = 'Usuario no detectado'
+
+end
+GO
+
+CREATE PROCEDURE ModificarDatos
+@idUsuario int,
+@nombre varchar(20),
+@apPaterno varchar(20),
+@apMaterno varchar(20),
+@tipoUsuario int,
+@telefono varchar(13),
+@correo varchar(20),
+@respuesta varchar(20) output
+
+AS
+update Usuarios set nombreUse = @nombre, aPpUser = @apPaterno, aPmUser = @apMaterno, 
+telefono = @telefono, correo = @correo where idUsuario = @idUsuario
+
+set @respuesta = 'Usuario modificado'
+
+GO

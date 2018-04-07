@@ -2,20 +2,26 @@
 package Paneles;
 
 import java.awt.event.MouseEvent;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.Types;
 import javax.swing.JOptionPane;
 
-public class pnVerModificarUsuarios extends javax.swing.JPanel {
+public class pnVerModificarUsuarios extends javax.swing.JPanel implements EnvioUsuario{
 
     public pnVerModificarUsuarios() {
         initComponents();
-        jscUsuarios.setViewportView(Funciones.Funciones.LlenadoDeTablas(
-                "select * from VerUsuarios"));
+        //jscUsuarios.setViewportView(Funciones.Funciones.LlenadoDeTablas(
+        //        "select * from VerUsuarios"));
+        GroupUsuarios.add(rbtnEliminar);
+        GroupUsuarios.add(rbtnModificar);
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        GroupUsuarios = new javax.swing.ButtonGroup();
         jscUsuarios = new javax.swing.JScrollPane();
         tbUsuarios = new javax.swing.JTable();
         rbtnModificar = new javax.swing.JRadioButton();
@@ -136,6 +142,26 @@ public class pnVerModificarUsuarios extends javax.swing.JPanel {
     
     }
     
+    private void EliminarUsuario(String nombre, String apPaterno, String apMaterno, String correo){
+        Connection c = Funciones.Conexion.ObtenerConexion();
+        if(c != null)
+            try{
+                String queryEliminar = "{Call dbo.EliminarUsuario(?,?,?,?, ?)}";
+                CallableStatement csEliminar = c.prepareCall(queryEliminar);
+                csEliminar.setString(1, nombre);
+                csEliminar.setString(2, apPaterno);
+                csEliminar.setString(3, apMaterno);
+                csEliminar.setString(4, correo);
+                csEliminar.registerOutParameter(5,Types.VARCHAR);
+                csEliminar.execute();
+                JOptionPane.showMessageDialog(null,csEliminar.getString(5));
+            } 
+            catch(Exception e){
+            JOptionPane.showMessageDialog(null,"Error; "+e.getMessage());
+            }
+        else
+            JOptionPane.showMessageDialog(null,"error de conexion");
+    }
     
     private void Modificar(MouseEvent evt) {
      
@@ -143,6 +169,7 @@ public class pnVerModificarUsuarios extends javax.swing.JPanel {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup GroupUsuarios;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -152,5 +179,10 @@ public class pnVerModificarUsuarios extends javax.swing.JPanel {
     private javax.swing.JTable tbUsuarios;
     private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void datosUsuarios(String nombre, String apPaterno, String apMaterno, String correo) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
 }

@@ -3,6 +3,8 @@ GO
 
 CREATE DATABASE PorVenir
 GO
+
+
 USE PorVenir
 GO
 
