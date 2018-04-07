@@ -12,7 +12,8 @@ public class pnVerModificarUsuarios extends javax.swing.JPanel implements EnvioU
     public pnVerModificarUsuarios() {
         initComponents();
         //jscUsuarios.setViewportView(Funciones.Funciones.LlenadoDeTablas(
-        //        "select * from VerUsuarios"));
+          //     "select * from VerUsuarios"));
+        tbUsuarios.setModel(Funciones.Funciones.LlenadoDeTablas("select * from VerUsuarios"));
         GroupUsuarios.add(rbtnEliminar);
         GroupUsuarios.add(rbtnModificar);
     }
@@ -114,7 +115,7 @@ public class pnVerModificarUsuarios extends javax.swing.JPanel implements EnvioU
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
        if(!txtBuscar.getText().equals(""))
-            jscUsuarios.setViewportView(Funciones.Funciones.LlenadoDeTablas(
+            tbUsuarios.setModel(Funciones.Funciones.LlenadoDeTablas(
                 "select * from VerUsuarios where nombreUse='"+txtBuscar.getText()+"'"));
        else
            JOptionPane.showMessageDialog(null, "La caja de texto esta vacia");

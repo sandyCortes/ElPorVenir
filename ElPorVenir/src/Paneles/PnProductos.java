@@ -128,8 +128,7 @@ public class PnProductos extends javax.swing.JPanel {
 
     private void btnProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductosActionPerformed
         String query = "";
-        jspTablaInventario.setViewportView(Funciones.Funciones.LlenadoDeTablas(
-                TOOL_TIP_TEXT_KEY));
+        
     }//GEN-LAST:event_btnProductosActionPerformed
 
 

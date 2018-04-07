@@ -10,6 +10,7 @@ import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 
 public class Funciones {
@@ -36,9 +37,9 @@ public class Funciones {
     }
     
     
-    public static JTable LlenadoDeTablas(String query){
+    public static DefaultTableModel LlenadoDeTablas(String query){
         Connection c = Conexion.ObtenerConexion();
-        JTable jtTablas = null;
+        DefaultTableModel model = null;
         if(c!=null)
             try {
                Statement st = c.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -56,12 +57,11 @@ public class Funciones {
                    for(int i = 0;i<filas;i++,rs.next())
                        for(int j = 0;j<columnas;j++)
                            datos[i][j] = rs.getString(j+1);
-                      
-                   jtTablas = new JTable(datos,titulos);
+                   model = new DefaultTableModel(datos, titulos);                   
                }
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e.getMessage());
             }
-        return jtTablas;
+        return model;
     }
 }

@@ -11,7 +11,7 @@ public class Conexion {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             c = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;"
-                    + "databaseName=PorVenir","sa","shura");
+                    + "databaseName=PorVenir","sa","dantexD123");
             
         } catch (Exception e) {
             
