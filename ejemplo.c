@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 int suma(int,int);
+int resta(int,int);
 int main(){
 
 
@@ -11,4 +12,10 @@ int main(){
 int suma(int a,int b){
 
     return a+b;
+}
+
+int resta(int a,int b){
+
+
+    return a-b;
 }
