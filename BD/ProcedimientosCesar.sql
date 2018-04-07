@@ -71,3 +71,61 @@ telefono = @telefono, correo = @correo where idUsuario = @idUsuario
 set @respuesta = 'Usuario modificado'
 
 GO
+
+
+
+CREATE PROCEDURE AgregaCompania
+	@descripcion varchar (100)
+as 
+	if NOT EXISTS (select * from Compania where Compania.descripcion =@descripcion) 
+	  begin 
+		insert into Compania values (@descripcion)
+	  end
+GO
+
+CREATE PROCEDURE AgregaProveedor
+	@marca VARCHAR(100), 
+	@telefono VARCHAR(10),
+	@compania VARCHAR(100),
+	@respuesta VARCHAR(100) OUTPUT
+AS
+	declare @idCompania int
+	select @idCompania= Compania.idCompania from Compania where descripcion = @compania
+	if NOT EXISTS (select * from Proveedor where @marca=Proveedor.descripcion)
+	begin 
+		insert into Proveedor values(@marca,@telefono, @idCompania)
+	set @respuesta='Proveedor agregado'
+	end
+	else 
+	begin 
+	set @respuesta='Este proveedor ya exite'
+	end
+GO
+
+CREATE PROCEDURE ModificaProv
+	@telefono varchar (10),
+	@marca varchar (100),
+	@compania varchar (100) 
+AS
+	declare @idCompania int
+	select @idCompania=Compania.idCompania from Compania where descripcion=@compania
+	update Proveedor set telefono=@telefono,idCompania=@idCompania where descripcion=@marca
+GO
+
+CREATE PROCEDURE Loguea
+	@usuario VARCHAR(100),
+	@contrasena VARCHAR(100),
+	@res INT OUTPUT
+AS
+	DECLARE @user VARCHAR(100);
+	SELECT @user = tipoUser FROM Usuarios WHERE @usuario = telefono OR @usuario = correo
+	AND actividad = 1;
+	IF(@user > 0)
+		BEGIN
+			SET @res = @user;
+		END
+	ELSE 
+		BEGIN
+			SET @res = 0;
+		END
+
