@@ -16,7 +16,7 @@ import javax.swing.table.DefaultTableModel;
 
 
 public class Funciones {
-
+    
     public static int GenerarPass(){
         return new Random().nextInt();
     }
@@ -68,6 +68,25 @@ public class Funciones {
         return jComboBox;
     }
     
+    public static Integer obtenerID(String nombre, String apPaterno, String apMaterno, String correo){
+        Integer id = null;
+        Connection c = Conexion.ObtenerConexion();
+        if(c != null)
+            try{
+                String idQuery = "Select idUsuario from Usuarios where"
+                        + " nombreUse ='"+nombre+"'AND aPpUser = '"+apPaterno+"' AND"
+                        + " aPmUser = '"+apMaterno+"'AND \n" +
+                        " correo = '"+correo+"' ";
+                Statement stObtenerID = c.createStatement();
+                ResultSet rs = stObtenerID.executeQuery(idQuery);
+                if(rs.next())
+                    id = rs.getInt(1);
+                   
+            }catch(Exception e){
+                System.out.println("Error de conexion" + e.getMessage());
+        }
+        return id;
+    }
     
     public static DefaultTableModel LlenadoDeTablas(String query){
         Connection c = Conexion.ObtenerConexion();
@@ -89,7 +108,7 @@ public class Funciones {
                    for(int i = 0;i<filas;i++,rs.next())
                        for(int j = 0;j<columnas;j++)
                            datos[i][j] = rs.getString(j+1);
-                   model = new DefaultTableModel(datos, titulos);                   
+                   model = new DefaultTableModel(datos, titulos);
                }
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e.getMessage());

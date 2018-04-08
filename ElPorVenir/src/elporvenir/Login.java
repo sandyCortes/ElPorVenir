@@ -155,6 +155,7 @@ public class Login extends javax.swing.JFrame {
 
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
             new Principal().setVisible(true);
+            this.dispose();
     }//GEN-LAST:event_btnEntrarActionPerformed
     
     

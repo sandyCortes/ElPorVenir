@@ -44,7 +44,7 @@ if exists(Select * from Usuarios
 where nombreUse = @nombre and aPpUser = @apPaterno and aPmUser = @apMaterno and correo = @correo)
 begin 
 
-update Usuarios set actividad = 0 where nombreUse = @nombre 
+update Usuarios set actividad = 2 where nombreUse = @nombre 
 and aPpUser = @apPaterno and aPmUser = @apMaterno and correo = @correo 
     set @respuesta = 'El usuario ha sido dado de baja'
 end 
@@ -75,12 +75,18 @@ GO
 
 
 CREATE PROCEDURE AgregaCompania
-	@descripcion varchar (100)
+	@descripcion varchar (100),
+	@respuesta 	VARCHAR(50) OUTPUT
 as 
 	if NOT EXISTS (select * from Compania where Compania.descripcion =@descripcion) 
 	  begin 
 		insert into Compania values (@descripcion)
+		SET @respuesta = 'compañia agregada'
 	  end
+	  ELSE
+	  BEGIN
+	  	SET @respuesta = 'esta compañia ya existe'
+	  END
 GO
 
 CREATE PROCEDURE AgregaProveedor
@@ -128,4 +134,4 @@ AS
 		BEGIN
 			SET @res = 0;
 		END
-
+GO

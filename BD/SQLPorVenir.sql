@@ -87,6 +87,9 @@ CREATE TABLE ProductoAlma(
 )
 GO
 
+
+
+
 CREATE TABLE Usuarios(
 	idUsuario INT PRIMARY KEY NOT NULL IDENTITY,
 	nombreUse VARCHAR(45) NOT NULL,

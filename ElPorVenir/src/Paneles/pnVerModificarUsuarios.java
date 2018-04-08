@@ -1,19 +1,19 @@
 
 package Paneles;
 
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Types;
 import javax.swing.JOptionPane;
 
-public class pnVerModificarUsuarios extends javax.swing.JPanel implements EnvioUsuario{
+public class pnVerModificarUsuarios extends javax.swing.JPanel{
 
     public pnVerModificarUsuarios() {
         initComponents();
-        //jscUsuarios.setViewportView(Funciones.Funciones.LlenadoDeTablas(
-          //     "select * from VerUsuarios"));
-        tbUsuarios.setModel(Funciones.Funciones.LlenadoDeTablas("select * from VerUsuarios"));
+        tbUsuarios.setModel(
+        Funciones.Funciones.LlenadoDeTablas("select * from VerUsuarios where actividad = 1"));
         GroupUsuarios.add(rbtnEliminar);
         GroupUsuarios.add(rbtnModificar);
     }
@@ -31,6 +31,7 @@ public class pnVerModificarUsuarios extends javax.swing.JPanel implements EnvioU
         jLabel2 = new javax.swing.JLabel();
         txtBuscar = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
+        btnVerTodo = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(620, 420));
 
@@ -44,7 +45,15 @@ public class pnVerModificarUsuarios extends javax.swing.JPanel implements EnvioU
             new String [] {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tbUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tbUsuariosMouseClicked(evt);
@@ -68,6 +77,13 @@ public class pnVerModificarUsuarios extends javax.swing.JPanel implements EnvioU
             }
         });
 
+        btnVerTodo.setText("Ver todo");
+        btnVerTodo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerTodoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -79,10 +95,7 @@ public class pnVerModificarUsuarios extends javax.swing.JPanel implements EnvioU
                     .addGroup(layout.createSequentialGroup()
                         .addGap(11, 11, 11)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jscUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 562, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 25, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(rbtnModificar)
                                 .addGap(18, 18, 18)
                                 .addComponent(rbtnEliminar)
@@ -92,7 +105,12 @@ public class pnVerModificarUsuarios extends javax.swing.JPanel implements EnvioU
                                 .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnBuscar)
-                                .addGap(26, 26, 26)))))
+                                .addGap(26, 26, 26))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(btnVerTodo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jscUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 562, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 23, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -108,8 +126,10 @@ public class pnVerModificarUsuarios extends javax.swing.JPanel implements EnvioU
                     .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBuscar))
                 .addGap(18, 18, 18)
-                .addComponent(jscUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addComponent(jscUsuarios, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnVerTodo)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -122,32 +142,42 @@ public class pnVerModificarUsuarios extends javax.swing.JPanel implements EnvioU
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void tbUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbUsuariosMouseClicked
-        if(rbtnEliminar.isSelected())
-             Eliminar(evt);
-        else if(rbtnModificar.isSelected())
-            Modificar(evt);
-        
+            if(rbtnEliminar.isSelected())
+                 Eliminar(evt);
+            else if(rbtnModificar.isSelected())
+                Modificar(evt);
     }//GEN-LAST:event_tbUsuariosMouseClicked
+
+    private void btnVerTodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerTodoActionPerformed
+        tbUsuarios.setModel(
+        Funciones.Funciones.
+        LlenadoDeTablas("select * from VerUsuarios where actividad = 1"));
+    }//GEN-LAST:event_btnVerTodoActionPerformed
 
     
     private void Eliminar(java.awt.event.MouseEvent evt){
+        
+        
     int res = JOptionPane.showConfirmDialog(null,"Estas seguro de borrar a"
         + "este usuario","borrar usuario",JOptionPane.YES_NO_OPTION);
         if(res == JOptionPane.YES_OPTION){
-           
+            Point point = evt.getPoint();
+            int fila = tbUsuarios.rowAtPoint(point);
+            EliminarUsuario(
+                    tbUsuarios.getModel().getValueAt(fila,0).toString(), 
+                    tbUsuarios.getModel().getValueAt(fila,1).toString(), 
+                    tbUsuarios.getModel().getValueAt(fila,2).toString(),
+                    tbUsuarios.getModel().getValueAt(fila,5).toString());
         }
-        else{
-            
-            
-        }
-    
+    tbUsuarios.setModel(
+        Funciones.Funciones.LlenadoDeTablas("select * from VerUsuarios where actividad = 1"));
     }
     
     private void EliminarUsuario(String nombre, String apPaterno, String apMaterno, String correo){
         Connection c = Funciones.Conexion.ObtenerConexion();
         if(c != null)
             try{
-                String queryEliminar = "{Call dbo.EliminarUsuario(?,?,?,?, ?)}";
+                String queryEliminar = "{Call dbo.EliminarUsuario(?,?,?,?,?)}";
                 CallableStatement csEliminar = c.prepareCall(queryEliminar);
                 csEliminar.setString(1, nombre);
                 csEliminar.setString(2, apPaterno);
@@ -165,13 +195,22 @@ public class pnVerModificarUsuarios extends javax.swing.JPanel implements EnvioU
     }
     
     private void Modificar(MouseEvent evt) {
-     
+        Point point = evt.getPoint();
+        int fila = tbUsuarios.rowAtPoint(point);
+        new ModificacionUsuario(
+            tbUsuarios.getModel().getValueAt(fila,0).toString(), 
+            tbUsuarios.getModel().getValueAt(fila,1).toString(), 
+            tbUsuarios.getModel().getValueAt(fila,2).toString(),
+            tbUsuarios.getModel().getValueAt(fila,5).toString()).
+            setVisible(true);
+        
     }
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup GroupUsuarios;
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnVerTodo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jscUsuarios;
@@ -181,9 +220,6 @@ public class pnVerModificarUsuarios extends javax.swing.JPanel implements EnvioU
     private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    public void datosUsuarios(String nombre, String apPaterno, String apMaterno, String correo) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    
 
 }
